@@ -1,0 +1,30 @@
+<!-- table.component.html -->
+<div class="row">
+  <div class="col-lg-3">
+    <a class="btn btn-lg btn-info text-white" [routerLink]="['/books/add']">Add New Book</a>
+  </div>
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Book Name</th>
+            <th>ISBN</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loop through the authors data -->
+          <tr *ngFor="let book of books">
+            <td>{{ book.name }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.author.first_name }} {{book.author.last_name}}</td>
+            <td>
+              <a class="btn btn-sm btn-primary" routerLink="/books/edit/{{book._id }}">Edit</a>
+              <button class="btn btn-sm btn-danger" (click)="deleteBook(book._id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
