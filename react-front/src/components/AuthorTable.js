@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAuthors, deleteAuthor } from '../redux/action/authorActions';
@@ -10,12 +10,19 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 const AuthorTable = () => {
   const dispatch = useDispatch();
   const authors = useSelector((state) => state.authors.authors);
+  const error = useSelector((state) => state.authors.error);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAuthors()); // Dispatch the fetchAuthors action to fetch authors
+    setShowResults(true); // Show the spinner before fetching data
+    dispatch(fetchAuthors())
+      .then(() => setShowResults(false)) // Hide the spinner after data is fetched
+      .catch((error) => {
+        console.error('Error fetching authors:', error);
+        toast.error('Error loading  authors');
+        setShowResults(false); // Hide the spinner on error
+      });
   }, [dispatch]);
-
-  console.log("author details", authors);
 
   const handleDeleteAuthor = async (id) => {
     try {
@@ -64,9 +71,24 @@ const AuthorTable = () => {
   return (
     <div className="container mt-4">
       <h2>Author Table</h2>
-      <Link to="/authors/add" className="btn btn-primary">
-        Add Author
-      </Link>
+      <div className='pb-2'>
+        <Link to="/authors/add" className="btn btn-primary pb-2">
+          Add Author
+        </Link>
+      </div>
+
+      {showResults && (
+        <div className="d-flex justify-content-center pb-2">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
+
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+
 
       <BootstrapTable
         keyField="_id"

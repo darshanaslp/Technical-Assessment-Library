@@ -5,8 +5,8 @@ export const fetchAuthors = () => async (dispatch) => {
     const response = await api.getAuthors();
     dispatch({ type: 'FETCH_AUTHORS_SUCCESS', payload: response.data });
   } catch (error) {
-    console.error('Error fetching authors:', error);
-    // Optionally dispatch an error action if needed
+    console.error('Error fetching books:', error);
+    dispatch({ type: 'FETCH_AUTHOR_FAILURE', error:error.message });
   }
 };
 
@@ -29,6 +29,6 @@ export const deleteAuthor = (id) => async (dispatch) => {
     dispatch({ type: 'DELETE_AUTHOR', payload: id });
   } catch (error) {
     console.error('Error deleting author:', error);
-    // Optionally dispatch an error action if needed
+    dispatch({ type: 'DELETE_AUTHOR_FAILURE', error: 'Error deleting author' });
   }
 };

@@ -1,6 +1,7 @@
 // authorReducer.js
 const initialState = {
     authors: [], // Corrected the property name from 'author' to 'authors'
+    error: null,
   };
   
   const authorReducer = (state = initialState, action) => {
@@ -9,6 +10,12 @@ const initialState = {
       return {
         ...state,
         authors: action.payload,
+        error: null,
+      };
+      case 'FETCH_AUTHOR_FAILURE':
+      return {
+        ...state,
+        error: action.error,
       };
       case 'ADD_AUTHOR':
         return {
@@ -27,6 +34,11 @@ const initialState = {
           ...state,
           authors: state.authors.filter((author) => author.id !== action.payload),
         };
+        case 'DELETE_AUTHOR_FAILURE':
+      return {
+        ...state,
+        error: action.error,
+      };
       default:
         return state;
     }
