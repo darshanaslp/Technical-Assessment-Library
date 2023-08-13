@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedServiceService } from '../../shared-service.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class TableComponent implements OnInit {
   authors: any[] = [];
-  successMessage: string | null = null;
+  tableLoading:boolean;
 
   constructor(
     private sharedService: SharedServiceService,
@@ -23,12 +24,22 @@ export class TableComponent implements OnInit {
   }
 
   getAuthors(): void {
+    this.tableLoading = true;
     this.sharedService.getAuthors().subscribe(
       (response) => {
         this.authors = response;
+        this.tableLoading = false;
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
+        const errorMessage = typeof error.error === 'string' ? error.error : 'Table Loading error';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage,
+          confirmButtonText: 'OK'
+        });
         console.error('Error fetching authors:', error);
+        // Handle the error here, you can show an alert or perform other actions
       }
     );
   }
