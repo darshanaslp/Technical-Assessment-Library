@@ -79,6 +79,45 @@ Then type  `npm install`
 Open your browse to `localhost:3000`
 
 
+#  Vue Frontend
+
+## Project structure
+
+-public
+
+-src
+
+ --component
+
+ --route
+ 
+ --store
+
+  -viex
+
+  -test
+  
+  -App.vue
+
+
+## Tech used
+
+- Vue
+- Vuex
+- Eslint
+- Bootstrap CSS framework for styling
+
+## How to run locally
+
+Clone or download project go to the Front-end
+Inside Front-end open node console
+
+Then type  `npm install`
+ Run `npm start` if you have node installed locally.
+ 
+Open your browse to `localhost:8080`
+
+
 
 #  Node Back-end
 
